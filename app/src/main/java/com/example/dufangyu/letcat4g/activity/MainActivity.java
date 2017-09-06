@@ -81,8 +81,10 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
                 public void run() {
 
                     int tempvalue  = Util.getRandomValue(20,30);
+                    int tempvalue2  = Util.getRandomValue(20,30);
                     LogUtil.d("dfy","tempvalue = "+tempvalue);
-                    mainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,"101",String.valueOf(tempvalue),String.valueOf(tempvalue));
+                    LogUtil.d("dfy","tempvalue2 = "+tempvalue2);
+                    mainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,"101",String.valueOf(tempvalue),String.valueOf(tempvalue2));
 
                 }
             });
