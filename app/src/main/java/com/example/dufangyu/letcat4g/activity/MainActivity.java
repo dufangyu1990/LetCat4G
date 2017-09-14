@@ -15,6 +15,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.dufangyu.letcat4g.utils.Constant.ALARMSTATE;
+import static com.example.dufangyu.letcat4g.utils.Constant.AROUNDDEVICE;
 import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTD;
 import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTYPE;
 
@@ -81,10 +83,10 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
                 public void run() {
 
                     int tempvalue  = Util.getRandomValue(20,30);
-                    int tempvalue2  = Util.getRandomValue(20,30);
+                    int tempvalue2  = Util.getRandomValue(20,80);
                     LogUtil.d("dfy","tempvalue = "+tempvalue);
                     LogUtil.d("dfy","tempvalue2 = "+tempvalue2);
-                    mainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,"101",String.valueOf(tempvalue),String.valueOf(tempvalue2));
+                    mainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,ALARMSTATE,AROUNDDEVICE,String.valueOf(tempvalue),String.valueOf(tempvalue2));
 
                 }
             });

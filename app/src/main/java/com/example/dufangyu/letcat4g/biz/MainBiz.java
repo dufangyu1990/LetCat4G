@@ -26,10 +26,9 @@ public class MainBiz implements IMain{
     }
 
     @Override
-    public void sendData(String deviceType, String deviceId, String deviceType1, String value1, String value2) {
+    public void sendData(String deviceType, String deviceId,String alarmState, String deviceType1, String value1, String value2) {
         TcpConnectUtil.getTcpInstance().IntiTemp();
-        TcpConnectUtil.getTcpInstance().ClintSendBcCommData (2105, "0002", deviceType, deviceId, "", "", "", "", "", "", "", deviceType1,value1 , value2, "", "", "", "", "");
-
+        TcpConnectUtil.getTcpInstance().ClintSendBcCommData (2105, "0002", deviceType, deviceId, "", alarmState, "", "", "", "", deviceType1, value1,value2 , "", "", "", "", "", "");
 
     }
 

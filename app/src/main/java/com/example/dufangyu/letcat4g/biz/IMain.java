@@ -7,6 +7,6 @@ package com.example.dufangyu.letcat4g.biz;
 public interface IMain {
 
     void sendLoginCommad(String deviceType, String deviceId);
-    void sendData(String deviceType, String deviceId,String deviceType1,String vale1,String value2);
+    void sendData(String deviceType, String deviceId,String alarmState,String deviceType1,String vale1,String value2);
 
 }
