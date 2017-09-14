@@ -575,14 +575,9 @@ public class Util {
      */
     public static int getRandomValue(int m,int n)
     {
-<<<<<<< HEAD
         int value = (int)(m+Math.random()*(n-m+1));
         LogUtil.d("dfy","value = "+value);
         return value;
-=======
-        LogUtil.d("dfy","(m+Math.random()*(m-n+1)) = "+(m+Math.random()*(n-m+1)));
-        return (int)(m+Math.random()*(n-m+1));
->>>>>>> f7c0aed9a22a41b48d5592c9051f391eeba2dc69
     }
 
 
