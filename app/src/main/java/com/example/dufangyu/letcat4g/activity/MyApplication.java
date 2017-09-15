@@ -3,6 +3,9 @@ package com.example.dufangyu.letcat4g.activity;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.example.dufangyu.letcat4g.service.TraceServiceImpl;
+import com.xdandroid.hellodaemon.DaemonEnv;
+
 /**
  * Created by dufangyu on 2017/6/12.
  */
@@ -18,6 +21,7 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         instance= this;
+        DaemonEnv.initialize(this, TraceServiceImpl.class, DaemonEnv.DEFAULT_WAKE_UP_INTERVAL);
         preferences =instance.getSharedPreferences("settingfile", MODE_PRIVATE);
         meditor = preferences.edit();
 

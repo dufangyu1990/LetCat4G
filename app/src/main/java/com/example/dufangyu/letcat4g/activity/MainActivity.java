@@ -1,19 +1,22 @@
 package com.example.dufangyu.letcat4g.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 
 import com.example.dufangyu.letcat4g.biz.IMain;
 import com.example.dufangyu.letcat4g.biz.MainBiz;
 import com.example.dufangyu.letcat4g.biz.MainListener;
 import com.example.dufangyu.letcat4g.present.ActivityPresentImpl;
+import com.example.dufangyu.letcat4g.service.PushDataService;
+import com.example.dufangyu.letcat4g.utils.Constant;
 import com.example.dufangyu.letcat4g.utils.LogUtil;
 import com.example.dufangyu.letcat4g.utils.MyToast;
 import com.example.dufangyu.letcat4g.utils.Util;
 import com.example.dufangyu.letcat4g.view.MainView;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import com.xdandroid.hellodaemon.IntentWrapper;
 
 import static com.example.dufangyu.letcat4g.utils.Constant.ALARMSTATE;
 import static com.example.dufangyu.letcat4g.utils.Constant.AROUNDDEVICE;
@@ -24,14 +27,25 @@ import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTYPE;
 public class MainActivity extends ActivityPresentImpl<MainView> implements MainListener {
 
     private long exitTime=0;
-    private static SendDataTask  task;
     private IMain mainBiz;
-    private static ScheduledThreadPoolExecutor mScheduledThreadPoolExecutor;
+
+    private Handler mHandler = new Handler() {
+        // 接收结果，刷新界面
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case Constant.MSG_SENDDATA:
+                    sendData();
+                    break;
+            }
+        };
+    };
+
+
     @Override
     public void afterViewCreate(Bundle savedInstanceState) {
         super.afterViewCreate(savedInstanceState);
         mainBiz = new MainBiz(this);
-        task = new SendDataTask();
+
 
     }
 
@@ -56,7 +70,10 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
     @Override
     public void loginSuccess() {
         LogUtil.d("dfy","登录成功！！");
-        initExecutor();
+        IntentWrapper.whiteListMatters(this, "推送数据服务的持续运行");
+        Intent intent = new Intent(this, PushDataService.class);
+        intent.putExtra("messenger", new Messenger(mHandler));
+        startService(intent);
     }
 
     @Override
@@ -64,34 +81,15 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
 
     }
 
-    private void initExecutor()
+
+    private void sendData()
     {
-        if(mScheduledThreadPoolExecutor ==null)
-            mScheduledThreadPoolExecutor = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(2);
-        if (mScheduledThreadPoolExecutor != null && task != null) {
-            mScheduledThreadPoolExecutor.scheduleAtFixedRate(task, 5, 10, TimeUnit.SECONDS);
-        }
+        int tempvalue  = Util.getRandomValue(20,30);
+        int tempvalue2  = Util.getRandomValue(20,80);
+        LogUtil.d("dfy","温度 = "+tempvalue);
+        LogUtil.d("dfy","湿度 = "+tempvalue2);
+        mainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,ALARMSTATE,AROUNDDEVICE,String.valueOf(tempvalue),String.valueOf(tempvalue2));
     }
 
-    class SendDataTask implements Runnable{
 
-        @Override
-        public void run() {
-            LogUtil.d("dfy","进行数据请求");
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    int tempvalue  = Util.getRandomValue(20,30);
-                    int tempvalue2  = Util.getRandomValue(20,80);
-                    LogUtil.d("dfy","tempvalue = "+tempvalue);
-                    LogUtil.d("dfy","tempvalue2 = "+tempvalue2);
-                    mainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,ALARMSTATE,AROUNDDEVICE,String.valueOf(tempvalue),String.valueOf(tempvalue2));
-
-                }
-            });
-
-        }
-
-    }
 }

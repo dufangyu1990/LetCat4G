@@ -25,6 +25,7 @@ public class Constant {
 	public static final int TCPNONET = 100;//app一进来就没网，100
 	public static final int TCPDISLINK = 101;//中途突然没网 101
 	public static final int TCPLINK = 102;//连接服务器成功 102
+	public static final int MSG_SENDDATA = 102;//发送数据
 
 
 }

@@ -1,5 +1,7 @@
 package com.example.dufangyu.letcat4g.view;
 
+import android.widget.Button;
+
 import com.example.dufangyu.letcat4g.R;
 
 
@@ -10,8 +12,10 @@ import com.example.dufangyu.letcat4g.R;
 public class MainView extends ViewImpl{
 
 
+    private Button button;
     @Override
     public void initView() {
+        button = findViewById(R.id.button);
     }
 
 
