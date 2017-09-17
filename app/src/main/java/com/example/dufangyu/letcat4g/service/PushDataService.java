@@ -28,7 +28,7 @@ public class PushDataService extends Service {
 
     private static ScheduledThreadPoolExecutor mScheduledThreadPoolExecutor;
     private static SendDataTask task;
-    private Messenger messenger;
+    private static Messenger messenger;
 
     @Nullable
     @Override
@@ -57,18 +57,18 @@ public class PushDataService extends Service {
                 | NotificationCompat.FLAG_NO_CLEAR;
         startForeground(1, notification);
 
-
+        initExecutor();
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtil.d("dfy", "service onStartCommand");
+        LogUtil.d("dfy", "messenger = "+messenger);
         if (messenger == null) {
             if(intent!=null)
                 messenger = (Messenger) intent.getExtras().get("messenger");
         }
-        initExecutor();
         return START_STICKY;
     }
 
@@ -81,7 +81,7 @@ public class PushDataService extends Service {
         }
     }
 
-    class SendDataTask implements Runnable {
+   static class SendDataTask implements Runnable {
 
         @Override
         public void run() {

@@ -22,6 +22,10 @@ public class MyApplication extends Application{
         super.onCreate();
         instance= this;
         DaemonEnv.initialize(this, TraceServiceImpl.class, DaemonEnv.DEFAULT_WAKE_UP_INTERVAL);
+//        try {
+//            startService(new Intent(this, TraceServiceImpl.class));
+//        } catch (Exception ignored) {
+//        }
         preferences =instance.getSharedPreferences("settingfile", MODE_PRIVATE);
         meditor = preferences.edit();
 

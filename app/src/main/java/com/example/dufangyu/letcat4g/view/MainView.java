@@ -3,6 +3,7 @@ package com.example.dufangyu.letcat4g.view;
 import android.widget.Button;
 
 import com.example.dufangyu.letcat4g.R;
+import com.example.dufangyu.letcat4g.helper.EventHelper;
 
 
 /**
@@ -33,5 +34,6 @@ public class MainView extends ViewImpl{
     @Override
     public void bindEvent() {
 
+        EventHelper.click(mPresent,button);
     }
 }
