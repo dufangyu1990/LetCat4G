@@ -76,12 +76,8 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
         Intent intent = new Intent(this, PushDataService.class);
         intent.putExtra("messenger", new Messenger(mHandler));
         startService(intent);
-
-
-        try {
-            startService(new Intent(this, TraceServiceImpl.class));
-        } catch (Exception ignored) {
-        }
+        TraceServiceImpl.sShouldStopService = false;
+        startService(new Intent(this, TraceServiceImpl.class));
 
 
 

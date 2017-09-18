@@ -77,8 +77,10 @@ public class PushDataService extends Service {
         if (mScheduledThreadPoolExecutor == null)
             mScheduledThreadPoolExecutor = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(2);
         if (mScheduledThreadPoolExecutor != null && task != null) {
+//            mScheduledThreadPoolExecutor.scheduleAtFixedRate(task, 500, 10, TimeUnit.MILLISECONDS);
             mScheduledThreadPoolExecutor.scheduleAtFixedRate(task, 5, 10, TimeUnit.SECONDS);
         }
+
     }
 
    static class SendDataTask implements Runnable {

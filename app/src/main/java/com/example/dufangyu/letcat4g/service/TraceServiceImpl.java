@@ -18,6 +18,7 @@ public class TraceServiceImpl extends AbsWorkService {
     //是否 任务完成, 不再需要服务运行?
     public static boolean sShouldStopService;
     public static Disposable sDisposable;
+    private static Intent myintent;
 
     public static void stopService() {
         //我们现在不再需要服务运行了, 将标志位置为 true
@@ -38,7 +39,7 @@ public class TraceServiceImpl extends AbsWorkService {
     }
 
     @Override
-    public void startWork(Intent intent, int flags, int startId) {
+    public void startWork(final Intent intent, int flags, int startId) {
         sDisposable = Flowable
                 .interval(10, TimeUnit.SECONDS)
                 //取消任务时取消定时唤醒
@@ -51,7 +52,12 @@ public class TraceServiceImpl extends AbsWorkService {
                 }).subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long count) throws Exception {
-                        startService(new Intent(getApplicationContext(),PushDataService.class));
+
+                        if(myintent==null)
+                        {
+                            myintent = new Intent(getApplicationContext(),PushDataService.class);
+                        }
+                        startService(myintent);
                     }
                 });
     }
