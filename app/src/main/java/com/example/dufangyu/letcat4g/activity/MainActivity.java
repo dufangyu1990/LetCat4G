@@ -14,6 +14,7 @@ import com.example.dufangyu.letcat4g.biz.MainListener;
 import com.example.dufangyu.letcat4g.present.ActivityPresentImpl;
 import com.example.dufangyu.letcat4g.service.PushDataService;
 import com.example.dufangyu.letcat4g.service.TraceServiceImpl;
+import com.example.dufangyu.letcat4g.socketUtils.TcpConnectUtil;
 import com.example.dufangyu.letcat4g.utils.Constant;
 import com.example.dufangyu.letcat4g.utils.LogUtil;
 import com.example.dufangyu.letcat4g.utils.MyToast;
@@ -57,6 +58,7 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
             MyToast.showTextToast(getApplicationContext(), "再按一次退出");
             exitTime = System.currentTimeMillis();
         } else {
+            mHandler.removeCallbacksAndMessages(null);
             finish();
             System.exit(0);
         }
@@ -91,6 +93,13 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
 
     private void sendData()
     {
+
+        if(!TcpConnectUtil.p_bLinkCenterON)
+        {
+            MyToast.showTextToast(getApplicationContext(),getResources().getString(R.string.badnetwork));
+            return;
+        }
+
         int tempvalue  = Util.getRandomValue(20,30);
         int tempvalue2  = Util.getRandomValue(20,80);
 //        LogUtil.d("dfy","温度 = "+tempvalue);

@@ -63,11 +63,15 @@ public class PushDataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogUtil.d("dfy", "service onStartCommand");
+//        LogUtil.d("dfy", "service onStartCommand");
         LogUtil.d("dfy", "messenger = "+messenger);
         if (messenger == null) {
             if(intent!=null)
-                messenger = (Messenger) intent.getExtras().get("messenger");
+            {
+                if(intent.getExtras()!=null)
+                    messenger = (Messenger) intent.getExtras().get("messenger");
+            }
+
         }
         return START_STICKY;
     }

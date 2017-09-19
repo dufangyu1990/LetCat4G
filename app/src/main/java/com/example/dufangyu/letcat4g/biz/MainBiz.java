@@ -3,6 +3,7 @@ package com.example.dufangyu.letcat4g.biz;
 
 import com.example.dufangyu.letcat4g.CallBack.DataCallBackImp;
 import com.example.dufangyu.letcat4g.socketUtils.TcpConnectUtil;
+import com.example.dufangyu.letcat4g.utils.LogUtil;
 
 /**
  * Created by dufangyu on 2017/9/5.
@@ -27,6 +28,8 @@ public class MainBiz implements IMain{
 
     @Override
     public void sendData(String deviceType, String deviceId,String alarmState, String deviceType1, String value1, String value2) {
+
+        LogUtil.d("dfy","发送数据");
         TcpConnectUtil.getTcpInstance().IntiTemp();
         TcpConnectUtil.getTcpInstance().ClintSendBcCommData (2105, "0002", deviceType, deviceId, "", alarmState, "", "", "", "", deviceType1, value1,value2 , "", "", "", "", "", "");
 
