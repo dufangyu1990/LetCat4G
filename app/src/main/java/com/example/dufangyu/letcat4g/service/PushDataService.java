@@ -73,7 +73,9 @@ public class PushDataService extends Service {
             }
 
         }
-        return START_STICKY;
+
+        LogUtil.d("");
+        return super.onStartCommand(intent,flags,startId);
     }
 
 

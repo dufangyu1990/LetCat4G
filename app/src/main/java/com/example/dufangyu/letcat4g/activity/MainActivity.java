@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Messenger;
 import android.view.View;
 
 import com.example.dufangyu.letcat4g.R;
@@ -12,7 +11,6 @@ import com.example.dufangyu.letcat4g.biz.IMain;
 import com.example.dufangyu.letcat4g.biz.MainBiz;
 import com.example.dufangyu.letcat4g.biz.MainListener;
 import com.example.dufangyu.letcat4g.present.ActivityPresentImpl;
-import com.example.dufangyu.letcat4g.service.PushDataService;
 import com.example.dufangyu.letcat4g.service.TraceServiceImpl;
 import com.example.dufangyu.letcat4g.socketUtils.TcpConnectUtil;
 import com.example.dufangyu.letcat4g.utils.Constant;
@@ -75,10 +73,12 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
     @Override
     public void loginSuccess() {
         LogUtil.d("dfy","登录成功！！");
-        Intent intent = new Intent(this, PushDataService.class);
-        intent.putExtra("messenger", new Messenger(mHandler));
-        startService(intent);
+
+//        Intent intent = new Intent(this, PushDataService.class);
+//        intent.putExtra("messenger", new Messenger(mHandler));
+//        startService(intent);
         TraceServiceImpl.sShouldStopService = false;
+        TraceServiceImpl.setModelBiz(mainBiz);
         startService(new Intent(this, TraceServiceImpl.class));
 
 

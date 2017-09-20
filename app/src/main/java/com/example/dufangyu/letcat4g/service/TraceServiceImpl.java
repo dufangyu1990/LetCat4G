@@ -3,14 +3,26 @@ package com.example.dufangyu.letcat4g.service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.example.dufangyu.letcat4g.R;
+import com.example.dufangyu.letcat4g.biz.IMain;
+import com.example.dufangyu.letcat4g.socketUtils.TcpConnectUtil;
+import com.example.dufangyu.letcat4g.utils.LogUtil;
+import com.example.dufangyu.letcat4g.utils.MyToast;
+import com.example.dufangyu.letcat4g.utils.Util;
 import com.xdandroid.hellodaemon.AbsWorkService;
 
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+
+import static com.example.dufangyu.letcat4g.utils.Constant.ALARMSTATE;
+import static com.example.dufangyu.letcat4g.utils.Constant.AROUNDDEVICE;
+import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTD;
+import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTYPE;
 
 public class TraceServiceImpl extends AbsWorkService {
 
@@ -19,6 +31,16 @@ public class TraceServiceImpl extends AbsWorkService {
     public static boolean sShouldStopService;
     public static Disposable sDisposable;
     private static Intent myintent;
+    private static IMain thisMainBiz;
+
+
+
+
+
+    public static void setModelBiz(IMain mainBiz)
+    {
+        thisMainBiz = mainBiz;
+    }
 
     public static void stopService() {
         //我们现在不再需要服务运行了, 将标志位置为 true
@@ -49,15 +71,19 @@ public class TraceServiceImpl extends AbsWorkService {
                         System.out.println("保存数据到磁盘。");
                         cancelJobAlarmSub();
                     }
-                }).subscribe(new Consumer<Long>() {
+                }).observeOn(AndroidSchedulers.mainThread())
+
+                .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long count) throws Exception {
 
-                        if(myintent==null)
-                        {
-                            myintent = new Intent(getApplicationContext(),PushDataService.class);
-                        }
-                        startService(myintent);
+//                        if(myintent==null)
+//                        {
+//                            myintent = new Intent(getApplicationContext(),PushDataService.class);
+//                        }
+//                        startService(myintent);
+                        sendData();
+//                        LogUtil.d("dfy","Thread = "+Thread.currentThread().getName());
                     }
                 });
     }
@@ -85,5 +111,24 @@ public class TraceServiceImpl extends AbsWorkService {
     @Override
     public void onServiceKilled(Intent rootIntent) {
         System.out.println("保存数据到磁盘。");
+        LogUtil.d("dfy","保存数据到磁盘。");
     }
+
+
+    private void sendData()
+    {
+
+        if(!TcpConnectUtil.p_bLinkCenterON)
+        {
+            MyToast.showTextToast(getApplicationContext(),getResources().getString(R.string.badnetwork));
+            return;
+        }
+        int tempvalue  = Util.getRandomValue(20,30);
+        int tempvalue2  = Util.getRandomValue(20,80);
+//        LogUtil.d("dfy","温度 = "+tempvalue);
+//        LogUtil.d("dfy","湿度 = "+tempvalue2);
+        if(thisMainBiz!=null)
+            thisMainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,ALARMSTATE,AROUNDDEVICE,String.valueOf(tempvalue),String.valueOf(tempvalue2));
+    }
+
 }
