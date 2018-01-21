@@ -1,10 +1,10 @@
 package com.example.dufangyu.letcat4g.present;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
 import com.example.dufangyu.letcat4g.CallBack.NetCallBackImp;
@@ -23,7 +23,7 @@ import static com.example.dufangyu.letcat4g.utils.Constant.TCPNONET;
  * Created by dufangyu on 2017/6/13.
  */
 
-public  class ActivityPresentImpl<T extends IView>extends AppCompatActivity implements IPresent<T> {
+public  class ActivityPresentImpl<T extends IView>extends Activity implements IPresent<T> {
 
     protected T mView;
 

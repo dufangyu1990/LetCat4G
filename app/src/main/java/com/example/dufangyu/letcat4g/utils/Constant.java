@@ -27,5 +27,7 @@ public class Constant {
 	public static final int TCPLINK = 102;//连接服务器成功 102
 	public static final int MSG_SENDDATA = 102;//发送数据
 
+	public static final String  ACTION_BOOT = "android.intent.action.BOOT_COMPLETED";//开机广播
+
 
 }

@@ -2,9 +2,6 @@ package com.example.dufangyu.letcat4g.view;
 
 import android.widget.Button;
 
-import com.example.dufangyu.letcat4g.R;
-import com.example.dufangyu.letcat4g.helper.EventHelper;
-
 
 /**
  * Created by dufangyu on 2017/8/31.
@@ -16,7 +13,7 @@ public class MainView extends ViewImpl{
     private Button button;
     @Override
     public void initView() {
-        button = findViewById(R.id.button);
+//        button = findViewById(R.id.button);
     }
 
 
@@ -28,12 +25,13 @@ public class MainView extends ViewImpl{
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_main;
+//        return R.layout.activity_main;
+        return 0;
     }
 
     @Override
     public void bindEvent() {
 
-        EventHelper.click(mPresent,button);
+//        EventHelper.click(mPresent,button);
     }
 }

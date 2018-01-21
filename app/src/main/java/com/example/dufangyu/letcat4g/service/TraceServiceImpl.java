@@ -125,8 +125,8 @@ public class TraceServiceImpl extends AbsWorkService {
         }
         int tempvalue  = Util.getRandomValue(20,30);
         int tempvalue2  = Util.getRandomValue(20,80);
-//        LogUtil.d("dfy","温度 = "+tempvalue);
-//        LogUtil.d("dfy","湿度 = "+tempvalue2);
+        LogUtil.d("dfy","温度 = "+tempvalue);
+        LogUtil.d("dfy","湿度 = "+tempvalue2);
         if(thisMainBiz!=null)
             thisMainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,ALARMSTATE,AROUNDDEVICE,String.valueOf(tempvalue),String.valueOf(tempvalue2));
     }

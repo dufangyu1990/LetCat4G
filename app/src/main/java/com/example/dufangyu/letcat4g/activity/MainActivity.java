@@ -18,7 +18,6 @@ import com.example.dufangyu.letcat4g.utils.LogUtil;
 import com.example.dufangyu.letcat4g.utils.MyToast;
 import com.example.dufangyu.letcat4g.utils.Util;
 import com.example.dufangyu.letcat4g.view.MainView;
-import com.xdandroid.hellodaemon.IntentWrapper;
 
 import static com.example.dufangyu.letcat4g.utils.Constant.ALARMSTATE;
 import static com.example.dufangyu.letcat4g.utils.Constant.AROUNDDEVICE;
@@ -112,9 +111,9 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
     public void onClick(View v) {
         switch (v.getId())
         {
-            case R.id.button:
-                IntentWrapper.whiteListMatters(this, "推送数据服务的持续运行");
-                break;
+//            case R.id.button:
+//                IntentWrapper.whiteListMatters(this, "推送数据服务的持续运行");
+//                break;
         }
     }
 }

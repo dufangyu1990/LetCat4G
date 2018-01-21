@@ -9,7 +9,6 @@ import android.support.annotation.*;
 public abstract class AbsWorkService extends Service {
 
     protected static final int HASH_CODE = 1;
-
     protected boolean mFirstStarted = true;
 
     /**
