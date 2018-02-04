@@ -530,6 +530,11 @@ public class TcpConnectUtil {
             if(mDataCallBack!=null)
                 mDataCallBack.onReceiveResult(intDataType,strDataType,strSetSN,strSetSN1,strAlmComType,strParam1,strParam2,strParam3);
         }
+        if(intDataType == 2160)
+        {
+            if(mDataCallBack!=null)
+                mDataCallBack.onReceiveResult(intDataType,strDataType,strSetSN,strSetSN1,strAlmComType,strParam1,strParam2,strParam3);
+        }
 
     }
 

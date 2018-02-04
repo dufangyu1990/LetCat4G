@@ -1,26 +1,17 @@
 package com.example.dufangyu.letcat4g.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 
-import com.example.dufangyu.letcat4g.R;
 import com.example.dufangyu.letcat4g.biz.IMain;
 import com.example.dufangyu.letcat4g.biz.MainBiz;
 import com.example.dufangyu.letcat4g.biz.MainListener;
 import com.example.dufangyu.letcat4g.present.ActivityPresentImpl;
-import com.example.dufangyu.letcat4g.service.TraceServiceImpl;
-import com.example.dufangyu.letcat4g.socketUtils.TcpConnectUtil;
-import com.example.dufangyu.letcat4g.utils.Constant;
+import com.example.dufangyu.letcat4g.utils.LightManager;
 import com.example.dufangyu.letcat4g.utils.LogUtil;
 import com.example.dufangyu.letcat4g.utils.MyToast;
-import com.example.dufangyu.letcat4g.utils.Util;
 import com.example.dufangyu.letcat4g.view.MainView;
 
-import static com.example.dufangyu.letcat4g.utils.Constant.ALARMSTATE;
-import static com.example.dufangyu.letcat4g.utils.Constant.AROUNDDEVICE;
 import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTD;
 import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTYPE;
 
@@ -30,16 +21,7 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
     private long exitTime=0;
     private IMain mainBiz;
 
-    private Handler mHandler = new Handler() {
-        // 接收结果，刷新界面
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case Constant.MSG_SENDDATA:
-                    sendData();
-                    break;
-            }
-        };
-    };
+
 
 
     @Override
@@ -55,7 +37,6 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
             MyToast.showTextToast(getApplicationContext(), "再按一次退出");
             exitTime = System.currentTimeMillis();
         } else {
-            mHandler.removeCallbacksAndMessages(null);
             finish();
             System.exit(0);
         }
@@ -72,13 +53,9 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
     @Override
     public void loginSuccess() {
         LogUtil.d("dfy","登录成功！！");
-
-//        Intent intent = new Intent(this, PushDataService.class);
-//        intent.putExtra("messenger", new Messenger(mHandler));
-//        startService(intent);
-        TraceServiceImpl.sShouldStopService = false;
-        TraceServiceImpl.setModelBiz(mainBiz);
-        startService(new Intent(this, TraceServiceImpl.class));
+//        TraceServiceImpl.sShouldStopService = false;
+//        TraceServiceImpl.setModelBiz(mainBiz);
+//        startService(new Intent(this, TraceServiceImpl.class));
 
 
 
@@ -89,21 +66,19 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
 
     }
 
-
-    private void sendData()
-    {
-
-        if(!TcpConnectUtil.p_bLinkCenterON)
-        {
-            MyToast.showTextToast(getApplicationContext(),getResources().getString(R.string.badnetwork));
-            return;
-        }
-
-        int tempvalue  = Util.getRandomValue(20,30);
-        int tempvalue2  = Util.getRandomValue(20,80);
-//        LogUtil.d("dfy","温度 = "+tempvalue);
-//        LogUtil.d("dfy","湿度 = "+tempvalue2);
-        mainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,ALARMSTATE,AROUNDDEVICE,String.valueOf(tempvalue),String.valueOf(tempvalue2));
+    //收到灯控指令
+    @Override
+    public void openLight(String type) {
+        LightManager.getInstance().openLight(type);
+    }
+    //收到巡检指令
+    @Override
+    public void getCheckOrder(String deviceId) {
+        String lightState="0";
+        String lockState="1";
+        String doorState="1";
+        String batteryState="70,80,90";
+        mainBiz.sendDeviceData(deviceId,lightState,lockState,doorState,batteryState);
     }
 
 

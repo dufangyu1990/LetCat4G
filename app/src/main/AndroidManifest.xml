@@ -11,19 +11,23 @@
         android:supportsRtl="true"
         android:name=".activity.MyApplication"
         android:theme="@style/AppTheme">
-       <!-- <service android:name=".service.PushDataService"/>-->
         <service android:name=".service.TraceServiceImpl" />
-        <service android:name=".service.BaseService" />
+       <!-- <service android:name=".service.BaseService" />
         <service android:name=".service.MyService" />
-
         <receiver android:name=".receiver.BootBroadcastReceiver">
             <intent-filter>
-                <!--注册开机广播地址-->
+                &lt;!&ndash;注册开机广播地址&ndash;&gt;
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
+        <activity android:name=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
 
     </application>

@@ -77,12 +77,7 @@ public class TraceServiceImpl extends AbsWorkService {
                     @Override
                     public void accept(Long count) throws Exception {
 
-//                        if(myintent==null)
-//                        {
-//                            myintent = new Intent(getApplicationContext(),PushDataService.class);
-//                        }
-//                        startService(myintent);
-                        sendData();
+                            sendData();
 //                        LogUtil.d("dfy","Thread = "+Thread.currentThread().getName());
                     }
                 });
@@ -120,6 +115,7 @@ public class TraceServiceImpl extends AbsWorkService {
 
         if(!TcpConnectUtil.p_bLinkCenterON)
         {
+            LogUtil.d("dfy","FUCK U");
             MyToast.showTextToast(getApplicationContext(),getResources().getString(R.string.badnetwork));
             return;
         }

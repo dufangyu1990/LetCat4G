@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.dufangyu.letcat4g.service.MyService;
+import com.example.dufangyu.letcat4g.utils.LogUtil;
 
 import static com.example.dufangyu.letcat4g.utils.Constant.ACTION_BOOT;
 
@@ -22,8 +23,10 @@ public class BootBroadcastReceiver extends BroadcastReceiver{
 //            // 下面这句话必须加上才能开机自动运行app的界面
 //            mBootIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            context.startActivity(mBootIntent);
+
+            LogUtil.d("dfy","接受开机广播");
             Intent mBootIntent = new Intent(context,MyService.class);
-            context.startService(intent);
+            context.startService(mBootIntent);
 
         }
 

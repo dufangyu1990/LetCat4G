@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.example.dufangyu.letcat4g.biz.IMain;
 import com.example.dufangyu.letcat4g.biz.MainBiz;
 import com.example.dufangyu.letcat4g.biz.MainListener;
+import com.example.dufangyu.letcat4g.utils.LightManager;
 import com.example.dufangyu.letcat4g.utils.LogUtil;
 import com.example.dufangyu.letcat4g.utils.MyToast;
 
@@ -28,6 +29,7 @@ public class MyService extends BaseService implements MainListener {
     @Override
     public void doNetConnect() {
         super.doNetConnect();
+        LogUtil.d("dfy","MyService  doNetConnect");
         mainBiz.sendLoginCommad(DEVICEIDTYPE,DEVICEIDTD);
     }
 
@@ -54,6 +56,20 @@ public class MyService extends BaseService implements MainListener {
 
     @Override
     public void loginFailed() {
+
+    }
+
+    /**
+     * 开关灯指令
+     * type “0”关灯。
+     *type “1”开灯红
+     *type “2”开灯绿
+     *type “3”开灯蓝
+     * @param type
+     */
+    @Override
+    public void openLight(String type) {
+        LightManager.getInstance().openLight(type);
 
     }
 }

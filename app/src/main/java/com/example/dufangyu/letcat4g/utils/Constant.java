@@ -30,4 +30,5 @@ public class Constant {
 	public static final String  ACTION_BOOT = "android.intent.action.BOOT_COMPLETED";//开机广播
 
 
+
 }

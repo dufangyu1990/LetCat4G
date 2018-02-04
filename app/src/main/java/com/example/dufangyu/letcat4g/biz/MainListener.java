@@ -7,4 +7,6 @@ package com.example.dufangyu.letcat4g.biz;
 public interface MainListener {
     void loginSuccess();
     void loginFailed();
+    void openLight(String type);
+    void getCheckOrder(String deviceId);
 }

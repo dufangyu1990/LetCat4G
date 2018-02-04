@@ -26,16 +26,21 @@ public class MainBiz implements IMain{
         TcpConnectUtil.getTcpInstance().ClintSendBcCommData (2105, "0001", deviceType, deviceId, "", "", "", "", "", "", "", "","" , "", "", "", "", "", "");
     }
 
+
     @Override
     public void sendData(String deviceType, String deviceId,String alarmState, String deviceType1, String value1, String value2) {
-
-        LogUtil.d("dfy","发送数据");
+        LogUtil.d("dfy","发送温湿度数据");
         TcpConnectUtil.getTcpInstance().IntiTemp();
         TcpConnectUtil.getTcpInstance().ClintSendBcCommData (2105, "0002", deviceType, deviceId, "", alarmState, "", "", "", "", deviceType1, value1,value2 , "", "", "", "", "", "");
 
     }
 
-
+    @Override
+    public void sendDeviceData(String deviceId, String lightState, String lockState, String doorState, String batteryState) {
+        LogUtil.d("dfy","发送设备数据");
+        TcpConnectUtil.getTcpInstance().IntiTemp();
+        TcpConnectUtil.getTcpInstance().ClintSendBcCommData (2160, "1001", "101", deviceId, "", "", "", "", "", "", "", lightState, lockState , doorState, batteryState, "", "", "", "");
+    }
 
 
 
@@ -51,8 +56,21 @@ public class MainBiz implements IMain{
                 {
                     if(strParam1.equals("1"))
                     {
-                        listener.loginSuccess();
+                        if(listener!=null)
+                            listener.loginSuccess();
                     }
+                }
+            }else if(intDataType==2160)
+            {
+                if(strDataType.equals("0002"))
+                {
+                    if(listener!=null)
+                        listener.openLight(strParam1);
+                }else if(strDataType.equals("0001"))//收到巡检指令
+                {
+                    LogUtil.d("dfy","设备号="+strSetSN1);
+                    if(listener!=null)
+                        listener.getCheckOrder(strSetSN1);
                 }
             }
         }
