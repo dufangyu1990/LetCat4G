@@ -38,6 +38,7 @@ public class MainBiz implements IMain{
     @Override
     public void sendDeviceData(String deviceId, String lightState, String lockState, String doorState, String batteryState) {
         LogUtil.d("dfy","发送设备数据");
+        LogUtil.d("dfy","deviceId = "+deviceId);
         TcpConnectUtil.getTcpInstance().IntiTemp();
         TcpConnectUtil.getTcpInstance().ClintSendBcCommData (2160, "1001", "101", deviceId, "", "", "", "", "", "", "", lightState, lockState , doorState, batteryState, "", "", "", "");
     }
@@ -48,8 +49,7 @@ public class MainBiz implements IMain{
     {
 
         @Override
-        public void onReceiveServerResult(int intDataType, String strDataType, String strSetSN, String strSetSN1, String strAlmComType, String strParam1, String strParam2, String strParam3) {
-
+        public void onReceiveServerResult(int intDataType, String strDataType, String strSetType, String strSetSN, String strSetSN1, String strAlmComType, String strHisType, String strPosType, String strFadeType, String strRecogType, String strRecogType1, String strParam1, String strParam2, String strParam3, String strParam4, String strParam5, String strParam6, String strParam7, String strParam8, String[] strArr) {
             if(intDataType==2105)
             {
                 if(strDataType.equals("1001"))
@@ -62,18 +62,20 @@ public class MainBiz implements IMain{
                 }
             }else if(intDataType==2160)
             {
-                if(strDataType.equals("0002"))
+                if(strDataType.equals("0002"))//灯控指令
                 {
                     if(listener!=null)
                         listener.openLight(strParam1);
                 }else if(strDataType.equals("0001"))//收到巡检指令
                 {
-                    LogUtil.d("dfy","设备号="+strSetSN1);
+                    LogUtil.d("dfy","设备号="+strSetSN);
                     if(listener!=null)
-                        listener.getCheckOrder(strSetSN1);
+                        listener.getCheckOrder(strSetSN);
                 }
             }
         }
+
+
     };
 
 }

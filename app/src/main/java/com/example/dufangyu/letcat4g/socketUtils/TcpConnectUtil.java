@@ -400,7 +400,7 @@ public class TcpConnectUtil {
             ClintReceBcCommData(intDataType, strReStem[0], strReStem[1], strReStem[2], strReStem[3],
                     strReStem[4], strReStem[5], strReStem[6], strReStem[7], strReStem[8], strReStem[9],
                     strReStem[10], strReStem[11], strReStem[12], strReStem[13], strReStem[14],
-                    strReStem[15], strReStem[16], strReStem[17]);
+                    strReStem[15], strReStem[16], strReStem[17],strReStem);
         }
     }
 
@@ -451,7 +451,7 @@ public class TcpConnectUtil {
                                     String strSetSN1, String strAlmComType, String strHisType, String strPosType,
                                     String strFadeType, String strRecogType, String strRecogType1, String strParam1,
                                     String strParam2, String strParam3, String strParam4, String strParam5, String strParam6,
-                                    String strParam7, String strParam8)
+                                    String strParam7, String strParam8,String[] strArr)
     {
         int i,j;
         if (intDataType == 1106) {
@@ -459,14 +459,22 @@ public class TcpConnectUtil {
             if (p_intTempCount == 0) {
 //                LogUtil.d("dfy","mDataCallBack = "+mDataCallBack);
                 if(mDataCallBack!=null)
-                    mDataCallBack.onReceiveResult(intDataType,strDataType,strSetSN,strSetSN1,strAlmComType,strParam1,strParam2,strParam3);
+                    mDataCallBack.onReceiveResult(intDataType,  strDataType,  strSetType,  strSetSN,
+                            strSetSN1,  strAlmComType,  strHisType,  strPosType,
+                            strFadeType,  strRecogType,  strRecogType1,  strParam1,
+                            strParam2,  strParam3,  strParam4,  strParam5,  strParam6,
+                            strParam7,  strParam8,strArr);
             } else {
                 if (p_intTempProCount >= p_intTempCount)
                 {
                     p_intTempProCount=0;
 //                    LogUtil.d("dfy","mDataCallBack = "+mDataCallBack);
                     if(mDataCallBack!=null)
-                        mDataCallBack.onReceiveResult(intDataType,strDataType,strSetSN,strSetSN1,strAlmComType,strParam1,strParam2,strParam3);
+                        mDataCallBack.onReceiveResult(intDataType,  strDataType,  strSetType,  strSetSN,
+                                strSetSN1,  strAlmComType,  strHisType,  strPosType,
+                                strFadeType,  strRecogType,  strRecogType1,  strParam1,
+                                strParam2,  strParam3,  strParam4,  strParam5,  strParam6,
+                                strParam7,  strParam8,strArr);
                 }
             }
         }
@@ -502,39 +510,71 @@ public class TcpConnectUtil {
                 p_intTempProCount=0;
 //                LogUtil.d("dfy","mDataCallBack = "+mDataCallBack);
                 if(mDataCallBack!=null)
-                    mDataCallBack.onReceiveResult(intDataType,strDataType,strSetSN,strSetSN1,strAlmComType,strParam1,strParam2,strParam3);
+                    mDataCallBack.onReceiveResult(intDataType,  strDataType,  strSetType,  strSetSN,
+                            strSetSN1,  strAlmComType,  strHisType,  strPosType,
+                            strFadeType,  strRecogType,  strRecogType1,  strParam1,
+                            strParam2,  strParam3,  strParam4,  strParam5,  strParam6,
+                            strParam7,  strParam8,strArr);
 //                TempJudge(strDataType,strParam2);
             }
+        }else {
+            if(mDataCallBack!=null)
+                mDataCallBack.onReceiveResult(intDataType,  strDataType,  strSetType,  strSetSN,
+                        strSetSN1,  strAlmComType,  strHisType,  strPosType,
+                        strFadeType,  strRecogType,  strRecogType1,  strParam1,
+                        strParam2,  strParam3,  strParam4,  strParam5,  strParam6,
+                        strParam7,  strParam8,strArr);
+
         }
 
-        if(intDataType == 1105)
-        {
-//            LogUtil.d("dfy","mDataCallBack = "+mDataCallBack);
-            if(mDataCallBack!=null)
-                mDataCallBack.onReceiveResult(intDataType,strDataType,strSetSN,strSetSN1,strAlmComType,strParam1,strParam2,strParam3);
-        }
-
-        if(intDataType == 1109)
-        {
-            if(mDataCallBack!=null)
-                mDataCallBack.onReceiveResult(intDataType,strDataType,strSetSN,strSetSN1,strAlmComType,strParam1,strParam2,strParam3);
-        }
-
-        if(intDataType == 1150)
-        {
-            if(mDataCallBack!=null)
-                mDataCallBack.onReceiveResult(intDataType,strDataType,strSetSN,strSetSN1,strAlmComType,strParam1,strParam2,strParam3);
-        }
-        if(intDataType == 2105)
-        {
-            if(mDataCallBack!=null)
-                mDataCallBack.onReceiveResult(intDataType,strDataType,strSetSN,strSetSN1,strAlmComType,strParam1,strParam2,strParam3);
-        }
-        if(intDataType == 2160)
-        {
-            if(mDataCallBack!=null)
-                mDataCallBack.onReceiveResult(intDataType,strDataType,strSetSN,strSetSN1,strAlmComType,strParam1,strParam2,strParam3);
-        }
+//        if(intDataType == 1105)
+//        {
+////            LogUtil.d("dfy","mDataCallBack = "+mDataCallBack);
+//            if(mDataCallBack!=null)
+//                mDataCallBack.onReceiveResult(intDataType,  strDataType,  strSetType,  strSetSN,
+//                        strSetSN1,  strAlmComType,  strHisType,  strPosType,
+//                        strFadeType,  strRecogType,  strRecogType1,  strParam1,
+//                        strParam2,  strParam3,  strParam4,  strParam5,  strParam6,
+//                        strParam7,  strParam8,strArr);
+//        }
+//
+//        if(intDataType == 1109)
+//        {
+//            if(mDataCallBack!=null)
+//                mDataCallBack.onReceiveResult(intDataType,  strDataType,  strSetType,  strSetSN,
+//                        strSetSN1,  strAlmComType,  strHisType,  strPosType,
+//                        strFadeType,  strRecogType,  strRecogType1,  strParam1,
+//                        strParam2,  strParam3,  strParam4,  strParam5,  strParam6,
+//                        strParam7,  strParam8,strArr);
+//        }
+//
+//        if(intDataType == 1150)
+//        {
+//            if(mDataCallBack!=null)
+//                mDataCallBack.onReceiveResult(intDataType,  strDataType,  strSetType,  strSetSN,
+//                        strSetSN1,  strAlmComType,  strHisType,  strPosType,
+//                        strFadeType,  strRecogType,  strRecogType1,  strParam1,
+//                        strParam2,  strParam3,  strParam4,  strParam5,  strParam6,
+//                        strParam7,  strParam8,strArr);
+//        }
+//        if(intDataType == 2105)
+//        {
+//            if(mDataCallBack!=null)
+//                mDataCallBack.onReceiveResult(intDataType,  strDataType,  strSetType,  strSetSN,
+//                        strSetSN1,  strAlmComType,  strHisType,  strPosType,
+//                        strFadeType,  strRecogType,  strRecogType1,  strParam1,
+//                        strParam2,  strParam3,  strParam4,  strParam5,  strParam6,
+//                        strParam7,  strParam8,strArr);
+//        }
+//        if(intDataType == 2160)
+//        {
+//            if(mDataCallBack!=null)
+//                mDataCallBack.onReceiveResult(intDataType,  strDataType,  strSetType,  strSetSN,
+//                        strSetSN1,  strAlmComType,  strHisType,  strPosType,
+//                        strFadeType,  strRecogType,  strRecogType1,  strParam1,
+//                        strParam2,  strParam3,  strParam4,  strParam5,  strParam6,
+//                        strParam7,  strParam8,strArr);
+//        }
 
     }
 

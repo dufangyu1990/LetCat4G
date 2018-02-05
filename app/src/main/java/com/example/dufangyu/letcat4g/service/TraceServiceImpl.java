@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.example.dufangyu.letcat4g.R;
+import com.example.dufangyu.letcat4g.activity.MyApplication;
 import com.example.dufangyu.letcat4g.biz.IMain;
 import com.example.dufangyu.letcat4g.socketUtils.TcpConnectUtil;
 import com.example.dufangyu.letcat4g.utils.LogUtil;
 import com.example.dufangyu.letcat4g.utils.MyToast;
-import com.example.dufangyu.letcat4g.utils.Util;
 import com.xdandroid.hellodaemon.AbsWorkService;
 
 import java.util.concurrent.TimeUnit;
@@ -19,10 +19,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
-import static com.example.dufangyu.letcat4g.utils.Constant.ALARMSTATE;
-import static com.example.dufangyu.letcat4g.utils.Constant.AROUNDDEVICE;
-import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTD;
-import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTYPE;
+import static com.example.dufangyu.letcat4g.service.MyService.mydeviceId;
 
 public class TraceServiceImpl extends AbsWorkService {
 
@@ -41,6 +38,8 @@ public class TraceServiceImpl extends AbsWorkService {
     {
         thisMainBiz = mainBiz;
     }
+
+
 
     public static void stopService() {
         //我们现在不再需要服务运行了, 将标志位置为 true
@@ -63,7 +62,7 @@ public class TraceServiceImpl extends AbsWorkService {
     @Override
     public void startWork(final Intent intent, int flags, int startId) {
         sDisposable = Flowable
-                .interval(10, TimeUnit.SECONDS)
+                .interval(30, TimeUnit.SECONDS)
                 //取消任务时取消定时唤醒
                 .doOnTerminate(new Action() {
                     @Override
@@ -112,19 +111,29 @@ public class TraceServiceImpl extends AbsWorkService {
 
     private void sendData()
     {
-
         if(!TcpConnectUtil.p_bLinkCenterON)
         {
             LogUtil.d("dfy","FUCK U");
             MyToast.showTextToast(getApplicationContext(),getResources().getString(R.string.badnetwork));
             return;
         }
-        int tempvalue  = Util.getRandomValue(20,30);
-        int tempvalue2  = Util.getRandomValue(20,80);
-        LogUtil.d("dfy","温度 = "+tempvalue);
-        LogUtil.d("dfy","湿度 = "+tempvalue2);
+//        int tempvalue  = Util.getRandomValue(20,30);
+//        int tempvalue2  = Util.getRandomValue(20,80);
+//        LogUtil.d("dfy","温度 = "+tempvalue);
+//        LogUtil.d("dfy","湿度 = "+tempvalue2);
+//        if(thisMainBiz!=null)
+//            thisMainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,ALARMSTATE,AROUNDDEVICE,String.valueOf(tempvalue),String.valueOf(tempvalue2));
+
         if(thisMainBiz!=null)
-            thisMainBiz.sendData(DEVICEIDTYPE,DEVICEIDTD,ALARMSTATE,AROUNDDEVICE,String.valueOf(tempvalue),String.valueOf(tempvalue2));
+        {
+            String lightState= MyApplication.getInstance().getStringPerference("lightState");
+            LogUtil.d("dfy","lightState = "+lightState);
+            String lockState="1";
+            String doorState="1";
+            String batteryState="70,80,90";
+            thisMainBiz.sendDeviceData(mydeviceId,lightState,lockState,doorState,batteryState);
+        }
+
     }
 
 }

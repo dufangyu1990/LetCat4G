@@ -9,4 +9,5 @@ public interface MainListener {
     void loginFailed();
     void openLight(String type);
     void getCheckOrder(String deviceId);
+    void openLightSuccess();
 }

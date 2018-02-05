@@ -3,6 +3,9 @@ package com.example.dufangyu.letcat4g.utils;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import com.example.dufangyu.letcat4g.activity.MyApplication;
+import com.example.dufangyu.letcat4g.biz.MainListener;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +23,7 @@ public class LightManager {
     private File file;//当前文件对象
     private File formalFile;//上次文件对象
 
+    private MainListener listener;
     private Handler myHandler = new Handler();
     private static class  SingleHolder{
         public static LightManager INSTANCE = new LightManager();
@@ -31,6 +35,11 @@ public class LightManager {
     }
 
 
+
+    public void setListener(MainListener listener)
+    {
+        this.listener = listener;
+    }
 
     public void openLight(String type)
     {
@@ -51,6 +60,14 @@ public class LightManager {
             if (Power_out != null) {
                 Power_out.write(data);
                 Power_out.flush();
+                if(!gpiostatus || type.equals("0"))
+                {
+                    MyApplication.getInstance().setStringPerference("lightState",type);
+                    if(listener!=null)
+                    {
+                        listener.openLightSuccess();
+                    }
+                }
 
             }
         } catch (Exception e) {

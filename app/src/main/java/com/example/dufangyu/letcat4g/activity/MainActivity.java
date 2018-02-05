@@ -20,6 +20,7 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
 
     private long exitTime=0;
     private IMain mainBiz;
+    private String deviceId;
 
 
 
@@ -28,7 +29,10 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
     public void afterViewCreate(Bundle savedInstanceState) {
         super.afterViewCreate(savedInstanceState);
         mainBiz = new MainBiz(this);
-
+        MyApplication.getInstance().setStringPerference("lightState","0");
+        MyApplication.getInstance().setStringPerference("lockState","1");
+        MyApplication.getInstance().setStringPerference("doorState","1");
+        MyApplication.getInstance().setStringPerference("batteryState","70,0,90");
 
     }
 
@@ -53,6 +57,7 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
     @Override
     public void loginSuccess() {
         LogUtil.d("dfy","登录成功！！");
+        LightManager.getInstance().setListener(this);
 //        TraceServiceImpl.sShouldStopService = false;
 //        TraceServiceImpl.setModelBiz(mainBiz);
 //        startService(new Intent(this, TraceServiceImpl.class));
@@ -69,12 +74,25 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
     //收到灯控指令
     @Override
     public void openLight(String type) {
+
         LightManager.getInstance().openLight(type);
     }
     //收到巡检指令
     @Override
     public void getCheckOrder(String deviceId) {
-        String lightState="0";
+        String lightState=MyApplication.getInstance().getStringPerference("lightState");
+        LogUtil.d("dfy","lightState = "+lightState);
+        this.deviceId = deviceId;
+        String lockState="1";
+        String doorState="1";
+        String batteryState="70,80,90";
+        mainBiz.sendDeviceData(deviceId,lightState,lockState,doorState,batteryState);
+    }
+
+    @Override
+    public void openLightSuccess() {
+        String lightState=MyApplication.getInstance().getStringPerference("lightState");
+        LogUtil.d("dfy","lightState = "+lightState);
         String lockState="1";
         String doorState="1";
         String batteryState="70,80,90";
