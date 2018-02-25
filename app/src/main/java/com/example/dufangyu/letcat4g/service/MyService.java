@@ -1,6 +1,7 @@
 package com.example.dufangyu.letcat4g.service;
 
 import android.content.Intent;
+import android.net.Uri;
 
 import com.example.dufangyu.letcat4g.activity.MyApplication;
 import com.example.dufangyu.letcat4g.biz.IMain;
@@ -99,5 +100,17 @@ public class MyService extends BaseService implements MainListener {
         String doorState="1";
         String batteryState="70,80,90";
         mainBiz.sendDeviceData(mydeviceId,lightState,lockState,doorState,batteryState);
+    }
+
+
+    //收到监听指令，打电话给用户
+    @Override
+    public void callUser(String phoneNumber) {
+
+        // 使用系统的电话拨号服务，必须去声明权限，在AndroidManifest.xml中进行声明
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
+                + phoneNumber));
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

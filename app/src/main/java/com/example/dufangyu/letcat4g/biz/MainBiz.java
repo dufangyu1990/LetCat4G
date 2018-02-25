@@ -68,9 +68,14 @@ public class MainBiz implements IMain{
                         listener.openLight(strParam1);
                 }else if(strDataType.equals("0001"))//收到巡检指令
                 {
-                    LogUtil.d("dfy","设备号="+strSetSN);
+                    LogUtil.d("dfy","收到巡检指令设备号="+strSetSN);
                     if(listener!=null)
                         listener.getCheckOrder(strSetSN);
+                }else if(strDataType.equals("0003"))
+                {
+                    LogUtil.d("dfy","电话号码="+strParam1);
+                    if(listener!=null)
+                        listener.callUser(strParam1);
                 }
             }
         }

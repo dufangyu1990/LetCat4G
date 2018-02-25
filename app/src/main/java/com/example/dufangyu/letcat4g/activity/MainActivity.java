@@ -1,5 +1,7 @@
 package com.example.dufangyu.letcat4g.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -97,6 +99,18 @@ public class MainActivity extends ActivityPresentImpl<MainView> implements MainL
         String doorState="1";
         String batteryState="70,80,90";
         mainBiz.sendDeviceData(deviceId,lightState,lockState,doorState,batteryState);
+    }
+
+    @Override
+    public void callUser(String phoneNumber) {
+
+
+        LogUtil.d("dfy","phoneNumber = "+phoneNumber);
+// 使用系统的电话拨号服务，必须去声明权限，在AndroidManifest.xml中进行声明
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
+                + phoneNumber));
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
 

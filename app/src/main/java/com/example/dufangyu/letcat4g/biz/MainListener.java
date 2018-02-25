@@ -10,4 +10,5 @@ public interface MainListener {
     void openLight(String type);
     void getCheckOrder(String deviceId);
     void openLightSuccess();
+    void callUser(String phoneNumber);
 }
