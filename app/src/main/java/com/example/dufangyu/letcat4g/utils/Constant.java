@@ -30,5 +30,11 @@ public class Constant {
 	public static final String  ACTION_BOOT = "android.intent.action.BOOT_COMPLETED";//开机广播
 
 
+	public static final String OPENZBLIGHTCMD="1600FFFFFFFFFE820D028A5A0000000000000B000001";
+	public static final String CLOSEZBLIGHTCMD="1600FFFFFFFFFE820D028A5A0000000000000B000000";
+	public static final String OPENZBDOORCMD="";
+	public static final String CLOSEZBDOORCMD="";
+
+
 
 }

@@ -76,6 +76,11 @@ public class MainBiz implements IMain{
                     LogUtil.d("dfy","电话号码="+strParam1);
                     if(listener!=null)
                         listener.callUser(strParam1);
+                }else if(strDataType.equals("0004"))//开关灯指令
+                {
+                    if(listener!=null)
+                        listener.openNdclose_ZBLight(strParam1);
+
                 }
             }
         }

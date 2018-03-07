@@ -2,14 +2,17 @@ package com.example.dufangyu.letcat4g.service;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.example.dufangyu.letcat4g.activity.MyApplication;
 import com.example.dufangyu.letcat4g.biz.IMain;
 import com.example.dufangyu.letcat4g.biz.MainBiz;
 import com.example.dufangyu.letcat4g.biz.MainListener;
+import com.example.dufangyu.letcat4g.utils.Constant;
 import com.example.dufangyu.letcat4g.utils.LightManager;
 import com.example.dufangyu.letcat4g.utils.LogUtil;
 import com.example.dufangyu.letcat4g.utils.MyToast;
+import com.example.dufangyu.letcat4g.utils.SerialPortUtil;
 
 import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTD;
 import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTYPE;
@@ -18,7 +21,7 @@ import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTYPE;
  * Created by dufangyu on 2018/1/21.
  */
 
-public class MyService extends BaseService implements MainListener {
+public class MyService extends BaseService implements MainListener,SerialPortUtil.OnDataReceiveListener {
 
     private IMain mainBiz;
     public static String mydeviceId;
@@ -57,6 +60,7 @@ public class MyService extends BaseService implements MainListener {
     public void loginSuccess() {
         LogUtil.d("dfy","登录成功！！");
         LightManager.getInstance().setListener(this);
+        SerialPortUtil.getInstance().setOnDataReceiveListener(this);
         TraceServiceImpl.sShouldStopService = false;
         TraceServiceImpl.setModelBiz(mainBiz);
         startService(new Intent(this, TraceServiceImpl.class));
@@ -68,7 +72,7 @@ public class MyService extends BaseService implements MainListener {
     }
 
     /**
-     * 开关灯指令
+     * 开关彩灯指令
      * type “0”关灯。
      *type “1”开灯红
      *type “2”开灯绿
@@ -112,5 +116,32 @@ public class MyService extends BaseService implements MainListener {
                 + phoneNumber));
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+
+    /**
+     * 开关ZigeBe灯
+     * @param lightflag
+     */
+    @Override
+    public void openNdclose_ZBLight(String lightflag) {
+        if(!TextUtils.isEmpty(lightflag))
+        {
+            if(lightflag.equals("1"))//开灯
+            {
+                SerialPortUtil.getInstance().sendCmds(Constant.OPENZBLIGHTCMD);
+            }else if(lightflag.equals("0"))//关灯
+            {
+                SerialPortUtil.getInstance().sendCmds(Constant.CLOSEZBLIGHTCMD);
+            }
+        }
+
+
+
+    }
+
+    @Override
+    public void onDataReceive(byte[] buffer, int size) {
+        LogUtil.d("dfy","接收数据线程:"+Thread.currentThread().getName());
     }
 }
