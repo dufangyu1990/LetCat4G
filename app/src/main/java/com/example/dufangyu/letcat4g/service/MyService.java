@@ -13,6 +13,7 @@ import com.example.dufangyu.letcat4g.utils.LightManager;
 import com.example.dufangyu.letcat4g.utils.LogUtil;
 import com.example.dufangyu.letcat4g.utils.MyToast;
 import com.example.dufangyu.letcat4g.utils.SerialPortUtil;
+import com.example.dufangyu.letcat4g.utils.Util;
 
 import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTD;
 import static com.example.dufangyu.letcat4g.utils.Constant.DEVICEIDTYPE;
@@ -125,6 +126,8 @@ public class MyService extends BaseService implements MainListener,SerialPortUti
      */
     @Override
     public void openNdclose_ZBLight(String lightflag) {
+
+        LogUtil.d("dfy","接收到开灯指令"+lightflag);
         if(!TextUtils.isEmpty(lightflag))
         {
             if(lightflag.equals("1"))//开灯
@@ -136,8 +139,43 @@ public class MyService extends BaseService implements MainListener,SerialPortUti
             }
         }
 
+    }
 
 
+    /**
+     * 开关zb门锁
+     * @param doorlockflag
+     */
+    @Override
+    public void openNdclose_ZBDoorLock(String doorlockflag) {
+
+        LogUtil.d("dfy","接收到开门指令"+doorlockflag);
+        if(!TextUtils.isEmpty(doorlockflag))
+        {
+            if(doorlockflag.equals("1"))//开锁
+            {
+                byte key[] = {0x46,0x45,0x49,0x42,0x49,0x47};
+                byte[] tailBuffer = new byte[6];
+                byte pass[] = {0x08,0x08,0x08,0x08,0x08,0x08};
+                for(int i =0;i<6;i++)
+                {
+                    tailBuffer[i] = (byte)(key[i]^pass[i]);
+                }
+                byte[] mBuffer= Util.hexStringToBytes(Constant.OPENZBDOORCMD);
+                byte[] mBufferTemp = new byte[mBuffer.length+tailBuffer.length];
+                System.arraycopy(mBuffer, 0, mBufferTemp, 0, mBuffer.length);
+                System.arraycopy(tailBuffer, 0, mBufferTemp, mBuffer.length, tailBuffer.length);
+
+                for(int i =0;i<mBufferTemp.length;i++)
+                {
+                    int data = mBufferTemp[i]&0xFF;
+                    LogUtil.d("dfy","mBufferTemp["+i+"] = "+Integer.toHexString(data));
+                }
+                SerialPortUtil.getInstance().sendBuffer(mBufferTemp);
+            }else if(doorlockflag.equals("0"))//上锁
+            {
+            }
+        }
     }
 
     @Override

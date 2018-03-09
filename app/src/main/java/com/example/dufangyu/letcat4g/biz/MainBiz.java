@@ -81,6 +81,10 @@ public class MainBiz implements IMain{
                     if(listener!=null)
                         listener.openNdclose_ZBLight(strParam1);
 
+                }else if(strDataType.equals("0005"))
+                {
+                    if(listener!=null)
+                        listener.openNdclose_ZBDoorLock(strParam1);
                 }
             }
         }

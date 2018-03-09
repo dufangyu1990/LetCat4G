@@ -16,4 +16,6 @@ public interface MainListener {
     void callUser(String phoneNumber);
     //开关zigeB灯
     void openNdclose_ZBLight(String lightflag);
+    //开关zigeB门锁
+    void openNdclose_ZBDoorLock(String doorlockflag);
 }
